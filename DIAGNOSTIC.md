@@ -1,7 +1,7 @@
 # DIAGNOSTIC — salles-api (TP2, étape 2)
 
 Chaque entrée : symptôme → cause (fichier) → brique du cours → preuve exécutée (+ capture) → réparation.
-Les captures sont dans `captures/` (`.png` = preuve, `.txt` = source de la capture).
+Les captures sont dans `captures/` (`.png` uniquement).
 
 ## 1. Rules : `AGENTS.md` ment sur les commandes
 - Symptôme : `npm test` et `npm run build` n'existent pas.
@@ -322,5 +322,5 @@ qui renvoie les créneaux libres d'une salle sur la journée demandée, avec ses
   puis relance en session neuve : 28 passed / 1 skipped + `captures/cap-relance-apres.png`
   et `captures/cap-delegation.png` (re-vérification déléguée, 2 trous bouchés).
 - Réserve honnête : MP4/GIF d'une session TUI non rejouables ici ; les `.png` sont rendus
-  depuis les sorties réelles (sources `.txt` à côté) avec commande et horodatage ;
+  depuis les sorties réelles avec commande et horodatage ;
   protocole de relance en session neuve : prompt ci-dessus, comparer les deux séries.
