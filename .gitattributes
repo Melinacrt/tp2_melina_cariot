@@ -1,0 +1,4 @@
+# Hooks shell : fin de ligne LF obligatoire, sinon bash voit des $'\r'
+# (git core.autocrlf les reintroduirait a chaque checkout Windows).
+*.sh text eol=lf
+.husky/* text eol=lf

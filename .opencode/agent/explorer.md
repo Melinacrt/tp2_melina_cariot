@@ -12,8 +12,8 @@ permission:
   list: allow
   lsp: allow
   webfetch: allow
-  edit: allow
   task: deny
+  edit: deny
   bash:
     "*": deny
     "git log*": allow

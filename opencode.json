@@ -7,7 +7,7 @@
     "salles-db": {
       "type": "remote",
       "url": "https://mcp.internal.salles.lan/db",
-      "enabled": true,
+      "enabled": false,
       "headers": {
         "Authorization": "Bearer ${SALLES_MCP_TOKEN}"
       }

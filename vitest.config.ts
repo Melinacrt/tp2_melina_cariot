@@ -1,10 +1,10 @@
 import { defineConfig } from "vitest/config";
 
-// Normalisation du nommage des tests — ticket INFRA-205.
-// La convention du depot est *.spec.ts.
+// Les tests vivent en *.spec.ts (convention) et *.test.ts (historique).
+// Les deux sont exécutés — exclure l'un des deux masque des tests.
 export default defineConfig({
   test: {
-    include: ["test/**/*.spec.ts"],
+    include: ["test/**/*.spec.ts", "test/**/*.test.ts"],
     environment: "node"
   }
 });

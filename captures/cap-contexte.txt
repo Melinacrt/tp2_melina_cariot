@@ -1,0 +1,19 @@
+Mesure statique du coût contexte (injecté à chaque session OpenCode) :
+
+PS> (Get-Content opencode.json -Raw).Length
+opencode.json : 1224 chars, dont bloc "mcp" ~1049 chars (86 % du fichier)
+  = ~150-200 chars par serveur MCP, renvoyés à chaque appel outil MCP
+
+PS> Get-ChildItem .opencode/agent/*.md | % { $_.Name + ": " + $_.Length + " o" }
+architect.md: 5487 o  (le plus gros = payé à chaque tour de l'orchestrateur)
+dev.md: 3216 o
+explorer.md: 3123 o
+finder.md: 2273 o
+planner.md: 3300 o
+reviewer.md: 3084 o
+tester.md: 3362 o
+
+Indicateur dynamique (tokens/contexte OpenCode TUI) : pas d'outillage dans le dépôt.
+Protocole : en session neuve, relever l'indicateur avant/après désactivation d'un MCP
+("opencode run" même prompt, comparer contexte consommé), surtout pour l'architecte
+dont le prompt système (5487 o + config 1224 o) est le plus chargé.

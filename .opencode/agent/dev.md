@@ -13,7 +13,7 @@ permission:
   lsp: allow
   edit: allow
   todowrite: allow
-  task: allow
+  task: deny
   webfetch: ask
   bash:
     "*": allow
@@ -41,9 +41,8 @@ narrow enough to do well.
 
 ## Scope
 
-**Do the assigned step.** If it turns out to be bigger than expected, split it and send
-the parts to other `dev` agents with `task` — that is faster than going back to the
-architect for a new brief.
+**Do the assigned step.** If it turns out to be bigger than expected, stop and report
+how to split it — the architect re-briefs. Do not spawn other `dev` agents yourself.
 
 **Nothing else.** You will notice other problems: a bug two
 functions away, a bad name, a missing test elsewhere. Report them in your return

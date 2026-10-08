@@ -1,0 +1,33 @@
+﻿
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/melin/Desktop/tp2_melina/malade[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+ [32m✓[39m test/price.test.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 9[2mms[22m[39m
+ [32m✓[39m test/overlap.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[90m 9[2mms[22m[39m
+ [32m✓[39m test/store.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 9[2mms[22m[39m
+ [32m✓[39m test/availability.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[90m 206[2mms[22m[39m
+ [32m✓[39m test/bookings.test.ts [2m([22m[2m5 tests[22m[2m)[22m[90m 211[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m26 passed[39m[22m[2m | [22m[33m1 skipped[39m[90m (27)[39m
+[2m   Start at [22m 15:28:42
+[2m   Duration [22m 2.20s[2m (transform 457ms, setup 0ms, collect 1.63s, tests 444ms, environment 4ms, prepare 1.72s)[22m
+
+[34m % [39m[2mCoverage report from [22m[33mv8[39m
+------------------|---------|----------|---------|---------|--------------------
+File              | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s  
+------------------|---------|----------|---------|---------|--------------------
+All files         |   82.64 |     87.3 |   93.33 |   82.64 |                    
+ src              |   90.19 |    85.71 |      80 |   90.19 |                    
+  app.ts          |     100 |      100 |     100 |     100 |                    
+  server.ts       |       0 |        0 |       0 |       0 | 1-7                
+  store.ts        |     100 |      100 |     100 |     100 |                    
+ src/lib          |   91.75 |    88.57 |     100 |   91.75 |                    
+  availability.ts |   92.15 |       90 |     100 |   92.15 | 30-31,39-40        
+  overlap.ts      |     100 |      100 |     100 |     100 |                    
+  price.ts        |     100 |      100 |     100 |     100 |                    
+  validate.ts     |   83.33 |       75 |     100 |   83.33 | 11-12,27-28        
+ src/routes       |   69.14 |    85.71 |     100 |   69.14 |                    
+  bookings.ts     |   68.25 |    76.92 |     100 |   68.25 | ...-45,63-64,68-75 
+  rooms.ts        |   70.96 |      100 |     100 |   70.96 | 8-9,12-18          
+------------------|---------|----------|---------|---------|--------------------

@@ -1,0 +1,14 @@
+﻿
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/melin/Desktop/tp2_melina/malade[39m
+
+ [32m✓[39m test/store.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 7[2mms[22m[39m
+ [32m✓[39m test/price.test.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 4[2mms[22m[39m
+ [32m✓[39m test/overlap.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[90m 7[2mms[22m[39m
+ [32m✓[39m test/availability.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[90m 136[2mms[22m[39m
+ [32m✓[39m test/bookings.test.ts [2m([22m[2m5 tests[22m[2m)[22m[90m 157[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m26 passed[39m[22m[2m | [22m[33m1 skipped[39m[90m (27)[39m
+[2m   Start at [22m 15:28:36
+[2m   Duration [22m 1.55s[2m (transform 432ms, setup 0ms, collect 1.43s, tests 312ms, environment 2ms, prepare 1.19s)[22m
+

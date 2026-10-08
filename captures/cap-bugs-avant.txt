@@ -1,0 +1,10 @@
+PS> npx tsx -e "priceFor(salle-a, 2026-10-10T09:00-11:00Z)"   [AVANT fix — 08/10 14:40]
+weekend price: "5020" string        <- number + "20" = concaténation (attendu : 70 number)
+
+PS> npx tsx -e "overlaps(09-10, 10-11)"   [AVANT fix — 08/10 14:40]
+bout-a-bout (09-10 vs 10-11): true  <- (attendu false, créneau = [début, fin[)
+
+PS> npx eslint src/lib/price.ts src/lib/overlap.ts   [config rules:{} — 08/10 14:40]
+(aucune sortie)
+PS> echo $?
+True   <- exit 0 : le lint vide laisse passer les deux bugs
