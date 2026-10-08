@@ -106,4 +106,42 @@ describe("getFreeSlotsForDay", () => {
       error: "date invalide, format attendu : YYYY-MM-DD"
     });
   });
+
+  it("rogne une réservation à cheval sur minuit", () => {
+    const booking = {
+      id: "b1",
+      roomId: "salle-a",
+      who: "a",
+      people: 2,
+      startsAt: "2026-10-04T22:00:00Z",
+      endsAt: "2026-10-05T02:00:00Z",
+      price: 50
+    };
+    expect(getFreeSlotsForDay([booking], "2026-10-05")).toEqual({
+      ok: true,
+      value: [{ startsAt: "2026-10-05T02:00:00Z", endsAt: "2026-10-06T00:00:00Z" }]
+    });
+    expect(getFreeSlotsForDay([booking], "2026-10-04")).toEqual({
+      ok: true,
+      value: [{ startsAt: "2026-10-04T00:00:00Z", endsAt: "2026-10-04T22:00:00Z" }]
+    });
+  });
+
+  it("renvoie une liste vide quand la journée est entièrement réservée", () => {
+    const result = getFreeSlotsForDay(
+      [
+        {
+          id: "b1",
+          roomId: "salle-a",
+          who: "a",
+          people: 2,
+          startsAt: "2026-10-05T00:00:00Z",
+          endsAt: "2026-10-06T00:00:00Z",
+          price: 50
+        }
+      ],
+      "2026-10-05"
+    );
+    expect(result).toEqual({ ok: true, value: [] });
+  });
 });

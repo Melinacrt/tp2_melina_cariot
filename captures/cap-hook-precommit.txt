@@ -1,0 +1,29 @@
+PROTOCOLE PLUGIN — session neuve, 08/10 15:56
+Demande : « modifie un fichier (un commentaire suffit), regarde si checks.sh
+apparait dans le resultat de l'edition ». Annulation par git restore.
+
+1) Edit agent sur src/lib/overlap.ts (commentaire temoin PROTOCOLE-PLUGIN) -> OK.
+   Resultat de l'outil d'edition : « Edit applied successfully. », SANS section
+   « --- checks post-ecriture --- ».
+   -> Attendu dans ce runtime : le hook .opencode/plugin/checks.js (tool.execute.after
+   sur edit/write des .ts, checks.js:9-16) ne se declenche que sous hote OpenCode (TUI) ;
+   ici pas d'hote plugin, donc pas de sortie collee. Le cablage reste relu et correct.
+
+2) Ce que le plugin collerait = scripts/checks.sh lance a la main (Git Bash) :
+   PS> bash scripts/checks.sh -> --- typecheck / --- lint / --- tests /
+   5 passed, 26 passed | 1 skipped / --- tous les checks sont verts. EXIT 0.
+
+3) TROUVAILLE (brique hooks, demontree) : le garde pre-commit ne tournait PAS dans ce clone.
+   Preuves : `git config core.hooksPath` -> vide ; `.git/hooks/` -> que des .sample,
+   pas de pre-commit. Donc le commit 75b7b7a (captures relance) est passe SANS checks.
+   Cause : `prepare: husky` (package.json:13) ne s'est jamais execute ici (npm install
+   anterieur a l'ajout de husky). La reparation etait commitee mais pas activee.
+   Fix : `npx husky` -> core.hooksPath = .husky/_ (stub _/pre-commit -> _/h ->
+   .husky/pre-commit, set -e + lint + typecheck + test:unit).
+   Preuve e2e : `bash .husky/_/pre-commit` -> 5 passed, 26 passed | 1 skipped, EXIT 0.
+   (Actif en local uniquement ; les clones frais l'obtiennent via `npm install` -> prepare.)
+
+4) Annulation : `git restore src/lib/overlap.ts` -> working tree propre (verifie).
+
+A CAPTURER ENCORE SOUS TUI OpenCode (non rejouable ici) : editer un .ts via l'agent
+OpenCode et photographier « --- checks post-ecriture --- » dans le retour d'outil.

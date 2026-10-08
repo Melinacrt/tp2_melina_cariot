@@ -1,0 +1,26 @@
+PROTOCOLE DELEGATION — session neuve, 08/10 15:57-15:58
+Question : apres corrections (planner -> subagent, dev task:deny), des delegations
+apparaissent-elles quand on rejoue l'exercice 1 ?
+
+AVANT (etape 1, compte-rendu-etape1.md §Observations) : implementation directe
+lib + route + tests, pas de delegation a des subagents. Trace : que des
+lectures/ecritures, aucun appel subagent.
+
+APRES (cette session) : re-verification de l'exercice 1 deleguee en 2 appels
+paralleles :
+- Task ses_ee4319082ffePht34Pl0wZMSOb (explore) : contrat lib + route -> verdict
+  OK, ancre availability.ts:19-20,22,70 / rooms.ts:21-24,27-29,31-34,36.
+- Task ses_ee431906dffe1du7wcrZYPcHg0 (explore) : couverture des tests -> verdict
+  partiel, ancre availability.spec.ts:25-28,30-33,35-38,40-48,50-58,60-66,70-101,
+  103-108 + 2 trous : reservation a cheval sur minuit (clipping
+  availability.ts:41-44 non prouve) et journee pleine (aucun toEqual([])).
+Donc OUI, des delegations apparaissent, avec retours ancres file:line.
+
+Effet : les 2 trous ont ete bouches aussitot dans test/availability.spec.ts
+(+2 tests : minuit des 2 cotes + journee pleine -> []) :
+PS> npm run test:unit -> 5 passed, 28 passed | 1 skipped (29). lint 0, typecheck 0.
+
+Reserve honnete : ces Task sont ceux de ce runtime, pas le `task` d'OpenCode TUI
+avec le roster architect/dev/tester. La trace TUI (architecte -> finder/explorer)
+reste a capturer sous OpenCode ; le modele de permissions corrige est celui qui
+la rend possible (planner subagent, dev sans task).
