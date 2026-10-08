@@ -1,0 +1,40 @@
+RELANCE exercice 1 depuis session neuve (harness repare) — 08/10 15:46
+Prompt exact du sujet : « Ajoute un endpoint GET /rooms/:id/availability?date=YYYY-MM-DD
+qui renvoie les creneaux libres d'une salle sur la journee demandee, avec ses tests. »
+Etat : endpoint deja present (src/lib/availability.ts + src/routes/rooms.ts + test/availability.spec.ts).
+La relance verifie qu'il tient avec le filet repare (aucun code ajoute).
+
+PS> npm run test:unit   [relance APRES — session neuve, 08/10 15:46]
+
+ RUN  v2.1.9 C:/Users/melin/Desktop/tp2_melina/malade
+
+ ✓ test/store.spec.ts (4 tests)
+ ✓ test/overlap.spec.ts (6 tests | 1 skipped)
+ ✓ test/price.test.ts (4 tests)
+ ✓ test/availability.spec.ts (8 tests)
+ ✓ test/bookings.test.ts (5 tests)
+
+ Test Files 5 passed (5)
+      Tests 26 passed | 1 skipped (27)
+   Start at 15:46:12
+
+PS> npm run lint   [relance APRES — 08/10 15:46]
+> eslint src test
+LINT_EXIT=0
+
+PS> npm run typecheck   [relance APRES — 08/10 15:46]
+> tsc --noEmit
+TYPECHECK_EXIT=0
+
+PS> npx tsx ./serve-avail.tmp.ts & curl live   [relance APRES — 08/10 15:46]
+GET /health -> {"ok":true}
+GET /rooms/salle-a/availability?date=2026-10-05 -> 200 {"roomId":"salle-a","date":"2026-10-05","freeSlots":[{"startsAt":"2026-10-05T00:00:00Z","endsAt":"2026-10-05T09:00:00Z"},{"startsAt":"2026-10-05T11:00:00Z","endsAt":"2026-10-06T00:00:00Z"}]}
+GET /rooms/labo/availability?date=2026-10-05 -> 200 {"roomId":"labo","date":"2026-10-05","freeSlots":[{"startsAt":"2026-10-05T00:00:00Z","endsAt":"2026-10-06T00:00:00Z"}]}
+GET /rooms/cave/availability?date=2026-10-05 -> 404 {"error":"salle inconnue"}
+GET /rooms/salle-a/availability -> 400 {"error":"date manquante, format attendu : YYYY-MM-DD"}
+GET /rooms/salle-a/availability?date=bad -> 400 {"error":"date invalide, format attendu : YYYY-MM-DD"}
+
+AVANT (rappel, harness malade) : captures/cap-vitest-avant.png (3 fichiers, 13 passed / 4 skipped ;
+bookings + price ignores) et captures/cap-bugs-avant.png ("5020", overlaps true, eslint exit 0).
+APRES (relance) : 5 fichiers, 26 passed / 1 skip volontaire (fixture legacy INFRA-198), lint + typecheck verts,
+endpoint live OK sur les 5 cas.
