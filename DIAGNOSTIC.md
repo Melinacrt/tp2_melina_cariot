@@ -53,6 +53,11 @@ Les captures sont dans `captures/` (`.png` = preuve, `.txt` = source de la captu
 - Protocole pour trancher : session neuve, même prompt avec puis sans ces MCP, relever
   l'indicateur de contexte OpenCode (surtout architecte : prompt 5487 o + config 1224 o)
   et le taux de réussite ; couper ceux qui ne servent jamais.
+- Tranché partiel, statique (`captures/cap-mcp-cout.png`, mesures à iso-sérialisation) :
+  config minifiée 771 chars (bloc mcp 613) → 484 sans notion/slack/playwright,
+  soit −287 chars (−37,2 %) ; salles-db (133, mort) + notion (84) + slack (91) +
+  playwright (79) = ~387/613 du bloc (63 %) pour zéro usage documenté.
+  Reste non rejouable hors TUI : l'indicateur dynamique tokens/contexte avec/sans ces MCP.
 
 ## 5. Command `/ship` : livre sans filet ni relecture, pousse sur `main`
 - Symptôme : `git add -A` + `commit` + `push`, « ne relance pas les checks », « ne demande pas
@@ -201,6 +206,11 @@ Les captures sont dans `captures/` (`.png` = preuve, `.txt` = source de la captu
   renommer `*.test.ts` en `*.spec.ts` ; l'include élargi a été préféré car non-destructif.
   L'option « supprimer les `*.test.ts` » aurait été un piège : elle efface 9 tests dont 2 qui
   attrapent des bugs réels.)
+- Suite (session neuve, délégation) : 2 trous trouvés par relecture déléguée —
+  réservation à cheval sur minuit (clipping `availability.ts:41-44` non prouvé) et
+  journée pleine (`freeSlots == []` jamais asserté) — bouchés dans
+  `test/availability.spec.ts` : suite à 28 passed / 1 skipped
+  (`captures/cap-delegation.png`).
 
 ## 18. CI verte par construction : tests commentés, typecheck absent
 - Symptôme : `ci.yml` ne lance que `npm run lint` (vide, voir 13) ; tests commentés
@@ -246,6 +256,21 @@ Les captures sont dans `captures/` (`.png` = preuve, `.txt` = source de la captu
   « ~40 lignes puis `needs explorer` » ont été pesés et blanchis : discipline de coût
   documentée, il lit quand même des extraits pour confirmer — pas un défaut.
 
+## 20. Hooks : réparation committée mais jamais activée dans ce clone
+- Symptôme : le commit `75b7b7a` (captures relance) est passé SANS checks —
+  ni lint, ni typecheck, ni tests ne se sont déclenchés.
+- Cause : `prepare: husky` (`package.json:13`) ne s'était jamais exécuté dans ce clone
+  (`core.hooksPath` vide, `.git/hooks/` réduit aux `.sample`, pas de `pre-commit`).
+- Brique : hooks.
+- Preuves : `git config core.hooksPath` → vide ; `ls .git/hooks` → que des `.sample`
+  (`captures/cap-hook-precommit.png`).
+- Réparation : `npx husky` → `core.hooksPath = .husky/_` (stub `_/pre-commit` → `_/h` →
+  `.husky/pre-commit`) ; preuve e2e `bash .husky/_/pre-commit` → exit 0, puis commit
+  `51738a7` passé avec le hook (28 passed dans la sortie du commit).
+  Note : `npx husky --version` (v9.1.7) écrit `--version/_` dans `core.hooksPath` et
+  bloque ensuite tous les commits (`env: unknown option`, exit 125, vu au `GIT_TRACE`) —
+  ne jamais l'utiliser comme lecture de version ; réparé par `git config core.hooksPath .husky/_`.
+
 ## Pesés et blanchis (lus avant d'accuser, non retenus)
 - `finder` : cap ~40 lignes + `needs explorer` = discipline de coût assumée, pas cécité.
 - `tester` : `bash "*": allow` sauf git-write/sudo = cohérent pour un QA qui doit démarrer
@@ -268,7 +293,8 @@ Les captures sont dans `captures/` (`.png` = preuve, `.txt` = source de la captu
 - `npx vitest run` avant : 3 fichiers, 13 passed / 4 skipped (`*.test.ts` ignorés) —
   `captures/cap-vitest-avant.png`.
 - `npx vitest run` après : 5 fichiers, 26 passed / 1 skipped (seul skip restant = fixture
-  legacy volontaire) — `captures/cap-vitest-apres.png`.
+  legacy volontaire) — `captures/cap-vitest-apres.png`, puis 28 passed / 1 skipped
+  après les 2 tests ajoutés en session neuve (minuit, journée pleine).
 - Mutation testing manuel (`overlap.ts`) : mutant `<=` réintroduit → 2 failed nommés
   (bout-à-bout + réservation adjacente) ; fix `<` restauré → tout vert —
   `captures/cap-mutant.png`.
@@ -292,7 +318,9 @@ qui renvoie les créneaux libres d'une salle sur la journée demandée, avec ses
   eslint exit 0).
 - APRÈS (même tâche, filet réparé) : `captures/cap-vitest-apres.png` (5 fichiers, 26 passed /
   1 skip volontaire), `captures/cap-coverage.png` (82,64 % stmts), endpoint live vérifié
-  (`/rooms/salle-a/availability?date=2026-10-05` → `00:00-09:00` + `11:00-24:00`).
+  (`/rooms/salle-a/availability?date=2026-10-05` → `00:00-09:00` + `11:00-24:00`),
+  puis relance en session neuve : 28 passed / 1 skipped + `captures/cap-relance-apres.png`
+  et `captures/cap-delegation.png` (re-vérification déléguée, 2 trous bouchés).
 - Réserve honnête : MP4/GIF d'une session TUI non rejouables ici ; les `.png` sont rendus
   depuis les sorties réelles (sources `.txt` à côté) avec commande et horodatage ;
   protocole de relance en session neuve : prompt ci-dessus, comparer les deux séries.
